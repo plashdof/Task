@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <SearchView
+        android:id="@+id/delivery_searchbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:rowCount="5"
+        android:columnCount="4"
+        app:layout_constraintTop_toBottomOf="@id/delivery_searchbar">
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:text="배민1"
+            android:textSize="30dp"
+            android:textColor="@color/black"
+            android:layout_columnSpan="2"
+            android:layout_rowSpan="2"/>
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginLeft="10dp"
+            android:text="배달"
+            android:textSize="30dp"
+            android:textColor="@color/black"
+            android:layout_columnSpan="2"
+            android:layout_rowSpan="2"/>
+
+
+        <Button
+            android:layout_width="400dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_columnSpan="4"
+            android:text="포장"
+            android:textSize="30dp"
+            />
+
+        <TableLayout
+
+            android:layout_columnSpan="4"
+            android:layout_rowSpan="2"
+            android:layout_margin="8dp"
+            android:layout_gravity="center">
+
+            <TableRow
+                android:layout_weight="2">
+
+                <Button
+                    android:text="쇼핑라이브"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"/>
+
+                <Button
+                    android:text="선물하기"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="20dp"/>
+
+                <Button
+                    android:text="전국별미"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="20dp"/>
+
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_marginTop="50dp">
+
+                <Button
+                    android:text="포인트       쿠폰함         선물함     찜"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                    android:layout_span="4"/>
+
+
+            </TableRow>
+
+        </TableLayout>
+
+
+    </GridLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
