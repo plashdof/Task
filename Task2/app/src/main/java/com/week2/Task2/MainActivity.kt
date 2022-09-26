@@ -5,7 +5,10 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
+import android.widget.Toast
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.week2.Task2.adapter.ProfileAdapter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -15,13 +18,12 @@ import org.json.JSONArray
 class MainActivity : AppCompatActivity() {
     private lateinit var profileAdapter: ProfileAdapter
     private lateinit var sharedPreferences : SharedPreferences
-
     private val data = mutableListOf<ProfileData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
+        setContentView(R.layout.activity_main)
 
         sharedPreferences = getSharedPreferences("test", MODE_PRIVATE)
 
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         val addProfileBtn = findViewById<ImageButton>(R.id.main_addprofile_btn)
 
+
         fun moveToAddProfilePage(){
             val intent = Intent(this, AddProfileActivity::class.java)
             startActivity(intent)
@@ -43,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
 
     // local 에 저장된 String 형태의 profile 이름 배열을 불러오기.
     // JSONArray -> ArrayList 로 형태변환
