@@ -27,6 +27,7 @@
                 android:src="@drawable/main_netflixlogo" />
 
             <ImageButton
+                android:id="@+id/main_fixprofile_btn"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="end|center"

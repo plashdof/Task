@@ -7,8 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
-import android.widget.Toast
-import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.week2.Task2.adapter.ProfileAdapter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,16 +26,25 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("test", MODE_PRIVATE)
 
 
+        overridePendingTransition(R.anim.none, R.anim.none)
+
         loadprofile()
+
+
 
 
         // 프로필 추가버튼 클릭시, AddProfileActivity로 화면이동
 
         val addProfileBtn = findViewById<ImageButton>(R.id.main_addprofile_btn)
-
+        val profileChangeBtn = findViewById<ImageButton>(R.id.main_fixprofile_btn)
 
         fun moveToAddProfilePage(){
             val intent = Intent(this, AddProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        fun moveToProfileChange(){
+            val intent = Intent(this, ProfileChangeActivity::class.java)
             startActivity(intent)
         }
 
@@ -45,6 +52,20 @@ class MainActivity : AppCompatActivity() {
             moveToAddProfilePage()
         }
 
+        profileChangeBtn.setOnClickListener{
+            moveToProfileChange()
+        }
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("aa","onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("aa","onStop")
     }
 
 

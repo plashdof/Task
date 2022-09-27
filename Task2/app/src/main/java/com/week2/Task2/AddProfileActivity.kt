@@ -44,6 +44,7 @@ class AddProfileActivity : AppCompatActivity() {
         val getShared = sharedPreferences.getString("profilenamearr", "ERROR")
 
 
+
         if(getShared != "ERROR"){
             var arrJson = JSONArray(getShared)
             for(i in 0 until arrJson.length()){

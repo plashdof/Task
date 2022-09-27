@@ -16,6 +16,8 @@ class HomeActivity : AppCompatActivity(){
         val bnView = findViewById<BottomNavigationView>(R.id.home_navigation)
         bnView.itemIconTintList = null
 
+        // BottomNavigationView 로 Fragment 전환하는 로직
+
         supportFragmentManager.beginTransaction().add(frame_container.id, HomeFragment()).commit()
         bnView.setOnItemSelectedListener {
             changePage(
