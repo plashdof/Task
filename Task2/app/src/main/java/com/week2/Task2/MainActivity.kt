@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.week2.Task2.adapter.ProfileAdapter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -58,14 +59,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    
+    // 프로필 삭제화면 이동시 Toast 메세지 출력
+
     override fun onPause() {
         super.onPause()
-        Log.d("aa","onPause")
-    }
+        Toast.makeText(this@MainActivity, "삭제할 프로필을 선택하세요", Toast.LENGTH_SHORT).show()
 
-    override fun onStop() {
-        super.onStop()
-        Log.d("aa","onStop")
     }
 
 
