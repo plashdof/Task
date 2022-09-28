@@ -1,6 +1,8 @@
 package com.week2.Task2
 
 
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -8,10 +10,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity(){
-    override fun onStart() {
-        super.onStart()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        Log.d("aa","onStart")
 
         val bnView = findViewById<BottomNavigationView>(R.id.home_navigation)
         bnView.itemIconTintList = null
@@ -31,32 +33,10 @@ class HomeActivity : AppCompatActivity(){
             )
             true
         }
-
-
     }
 
     private fun changePage(fragment:Fragment){
         supportFragmentManager.beginTransaction().replace(frame_container.id, fragment).commit()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("aa","onResume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("aa","onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("aa","onStop")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.d("aa","onRestart")
     }
 
 }

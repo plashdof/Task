@@ -18,36 +18,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var profileAdapter: ProfileAdapter
     private lateinit var sharedPreferences : SharedPreferences
     private val data = mutableListOf<ProfileData>()
+    var flag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
 
-        sharedPreferences = getSharedPreferences("test", MODE_PRIVATE)
-
+        Log.d("main","onCreate")
 
         overridePendingTransition(R.anim.none, R.anim.none)
-
-        loadprofile()
-
-
-
-
-        // 프로필 추가버튼 클릭시, AddProfileActivity로 화면이동
+        sharedPreferences = getSharedPreferences("test", MODE_PRIVATE)
 
         val addProfileBtn = findViewById<ImageButton>(R.id.main_addprofile_btn)
         val profileChangeBtn = findViewById<ImageButton>(R.id.main_fixprofile_btn)
-
-        fun moveToAddProfilePage(){
-            val intent = Intent(this, AddProfileActivity::class.java)
-            startActivity(intent)
-        }
-
-        fun moveToProfileChange(){
-            val intent = Intent(this, ProfileChangeActivity::class.java)
-            startActivity(intent)
-        }
 
         addProfileBtn.setOnClickListener{
             moveToAddProfilePage()
@@ -59,13 +42,48 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // 프로필 추가버튼 클릭시, AddProfileActivity로 화면이동
+    private fun moveToAddProfilePage(){
+        val intent = Intent(this, AddProfileActivity::class.java)
+        startActivity(intent)
+    }
+
+    // 연필버튼 클릭시, ProfileChangeActivity로 화면이동
+    private fun moveToProfileChange(){
+        flag = true
+        var intent = Intent(this, ProfileChangeActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("main","onStart")
+
+        loadprofile()
+    }
+
+    
+    // 프로필 삭제했을때, Toast 메세지 출력
+    
+    override fun onResume() {
+        super.onResume()
+        Log.d("main","onResume")
+        if(intent.getStringExtra("result") == "success"){
+            Toast.makeText(this@MainActivity, "프로필을 삭제했습니다", Toast.LENGTH_SHORT).show()
+        }
+    }
     
     // 프로필 삭제화면 이동시 Toast 메세지 출력
 
     override fun onPause() {
         super.onPause()
-        Toast.makeText(this@MainActivity, "삭제할 프로필을 선택하세요", Toast.LENGTH_SHORT).show()
 
+        Log.d("main","onPause")
+
+        if(flag){
+            Toast.makeText(this@MainActivity, "삭제할 프로필을 선택하세요", Toast.LENGTH_SHORT).show()
+            flag = false
+        }
     }
 
 
@@ -116,8 +134,28 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    override fun onStop() {
+        super.onStop()
+        Log.d("main","onStop")
+    }
+
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("main","onRestart")
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("main","onDestroy")
+    }
 
 
 
 
 }
+
+
+
+

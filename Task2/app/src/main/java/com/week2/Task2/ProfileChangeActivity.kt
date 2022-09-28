@@ -22,24 +22,21 @@ class ProfileChangeActivity : AppCompatActivity(){
     private lateinit var sharedpreferences : SharedPreferences
     private val data = mutableListOf<Int>()
 
-    override fun onStart() {
-        Log.d("aa", "onStart")
-        super.onStart()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profilechange)
 
         sharedpreferences = getSharedPreferences("test", MODE_PRIVATE)
 
-
-
-        loadprofilechange()
         overridePendingTransition(R.anim.none, R.anim.none)
 
+        loadprofilechange()
 
         val gomainBtn = findViewById<ImageButton>(R.id.profilechange_goback_btn)
-        
+
         // 뒤로가기 버튼 눌렀을때 페이지 이동
         gomainBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            var intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.none, R.anim.none)
         }
@@ -49,12 +46,14 @@ class ProfileChangeActivity : AppCompatActivity(){
             override fun onClick(v: View, position: Int){
                 Log.d("aa", "Clicked")
                 deleteprofile(position)
-                val intent = Intent(this@ProfileChangeActivity, MainActivity::class.java)
+                var intent = Intent(this@ProfileChangeActivity, MainActivity::class.java)
+                intent.putExtra("result", "success")
                 startActivity(intent)
             }
         })
 
     }
+
 
     // 뒤로가기 버튼 애니메이션 재정의
     override fun onBackPressed() {

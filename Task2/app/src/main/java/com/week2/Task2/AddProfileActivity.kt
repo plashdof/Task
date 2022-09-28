@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -23,45 +24,48 @@ class AddProfileActivity : AppCompatActivity() {
     var profilenamearr : ArrayList<String> = ArrayList()
     var flag : Boolean = false
 
-
-    override fun onStart() {
-        super.onStart()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addprofile)
+
         binding = ActivityAddprofileBinding.inflate(layoutInflater)
 
         val gobackBtn = findViewById<ImageButton>(R.id.addprofile_goback_btn)
         val storeBtn = findViewById<Button>(R.id.addprofile_store_btn)
-        val editText = findViewById<EditText>(R.id.addprofile_input)
-        val imgBtn = findViewById<ImageButton>(R.id.addprofile_image_btn)
 
         storeBtn.isEnabled = false
-
         sharedPreferences = getSharedPreferences("test", MODE_PRIVATE)
-
-        // local 에 저장된 String 형태의 profile 이름 배열을 불러오기.
-        // JSONArray -> ArrayList 로 형태변환
-
-        val getShared = sharedPreferences.getString("profilenamearr", "ERROR")
-
-
-
-        if(getShared != "ERROR"){
-            var arrJson = JSONArray(getShared)
-            for(i in 0 until arrJson.length()){
-                profilenamearr.add(arrJson.optString(i))
-            }
-        }
-
 
         // 뒤로가기버튼 클릭 리스너
         gobackBtn.setOnClickListener{
             movebackPage()
         }
 
-
         // 저장버튼 클릭 리스너
         storeBtn.setOnClickListener{
             makeProfile()
+        }
+
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("aa","onStart")
+
+        val editText = findViewById<EditText>(R.id.addprofile_input)
+        val imgBtn = findViewById<ImageButton>(R.id.addprofile_image_btn)
+        val storeBtn = findViewById<Button>(R.id.addprofile_store_btn)
+
+        // local 에 저장된 String 형태의 profile 이름 배열을 불러오기.
+        // JSONArray -> ArrayList 로 형태변환
+        val getShared = sharedPreferences.getString("profilenamearr", "ERROR")
+
+        if(getShared != "ERROR"){
+            var arrJson = JSONArray(getShared)
+            for(i in 0 until arrJson.length()){
+                profilenamearr.add(arrJson.optString(i))
+            }
         }
 
 
@@ -86,15 +90,11 @@ class AddProfileActivity : AppCompatActivity() {
                     storeBtn.setTextColor(Color.rgb(59,11,23))
                 }
 
-
             }
-
             override fun afterTextChanged(p0: Editable?) {}
         })
+
     }
-
-
-
 
     // 프로필 추가 성공시 Toast 메세지
     // 뒤로가기 눌렀을때 Toast 메세지
@@ -131,7 +131,7 @@ class AddProfileActivity : AppCompatActivity() {
         editor.putString("profilenamearr", result)
         editor.apply()
 
-        intent = Intent(this, MainActivity::class.java)
+        var intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 
