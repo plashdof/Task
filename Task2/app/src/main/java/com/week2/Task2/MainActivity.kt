@@ -37,12 +37,18 @@ class MainActivity : AppCompatActivity() {
         val addProfileBtn = findViewById<ImageButton>(R.id.main_addprofile_btn)
         val profileChangeBtn = findViewById<ImageButton>(R.id.main_fixprofile_btn)
 
+        loadprofile()
+
         addProfileBtn.setOnClickListener{
             moveToAddProfilePage()
         }
 
         profileChangeBtn.setOnClickListener{
             moveToProfileChange()
+        }
+
+        if(intent.getStringExtra("addprofile") == "fail"){
+            Toast.makeText(this,"프로필이 추가되지 않았습니다",Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -63,8 +69,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Log.d("main","onStart")
-
-        loadprofile()
     }
 
     
@@ -126,9 +130,12 @@ class MainActivity : AppCompatActivity() {
     // recycler view 화면 출력
 
     private fun recycler(profilenamearr: ArrayList<String>, profileimgarr: ArrayList<String>){
+        
+        // 어뎁터 연결
         profileAdapter = ProfileAdapter(this)
         main_profiles.adapter = profileAdapter
-
+        
+        // 레이아웃 매니저 호출 & 레이아웃 설정
         val gridLayoutManager = GridLayoutManager(this, 2)
         main_profiles.layoutManager = gridLayoutManager
 
@@ -138,8 +145,11 @@ class MainActivity : AppCompatActivity() {
         
         data.apply{
 
-            for(i in 0 until profileimgarr.size){
+            for(i in 0 until profilenamearr.size){
+                
+                // bitmap 을 drawable로 다시 변환시키는 로직
                 val d = BitmapDrawable(resources,StringToBitmap(profileimgarr[i]))
+
                 add(ProfileData(img = d, name = profilenamearr[i]))
             }
             

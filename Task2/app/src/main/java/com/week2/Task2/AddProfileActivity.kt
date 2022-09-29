@@ -3,9 +3,9 @@ package com.week2.Task2
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,12 +17,11 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.week2.Task2.databinding.ActivityAddprofileBinding
+import com.bumptech.glide.Glide
 import org.json.JSONArray
 import java.io.ByteArrayOutputStream
 
 class AddProfileActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityAddprofileBinding
     private lateinit var sharedPreferences:SharedPreferences
     private lateinit var profilebitmap : Bitmap
     var profilename : String =""
@@ -34,10 +33,9 @@ class AddProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addprofile)
 
-        binding = ActivityAddprofileBinding.inflate(layoutInflater)
-
         val gobackBtn = findViewById<ImageButton>(R.id.addprofile_goback_btn)
         val storeBtn = findViewById<Button>(R.id.addprofile_store_btn)
+        val changeprofileBtn = findViewById<ImageButton>(R.id.addprofile_image_btn)
 
 
         storeBtn.isEnabled = false
@@ -53,6 +51,10 @@ class AddProfileActivity : AppCompatActivity() {
         // 저장버튼 클릭 리스너
         storeBtn.setOnClickListener{
             makeProfile()
+        }
+
+        changeprofileBtn.setOnClickListener {
+            movechangePage()
         }
 
     }
@@ -113,16 +115,37 @@ class AddProfileActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val profileimg = findViewById<ImageButton>(R.id.addprofile_image_btn)
+        
+        // 투명창인 프로필 사진 변경 창 끝났을경우, 해당 선택한 프로필로 변경해준다!
+        // Glide 라이브러리 사용
+
+        if(intent.getStringExtra("changeprofile") == "success"){
+
+            val bit = intent.getParcelableExtra<Bitmap>("profileimg")
+
+            // AddChangeProfileActivity -> AddProfileActivity 일경우, 애니메이션 제거
+            overridePendingTransition(R.anim.none, R.anim.none)
+
+            // Bitmap 을 Drawable 로 변경
+            val d = BitmapDrawable(resources,bit)
+            Glide.with(this)
+                .load(d)
+                .into(profileimg)
+        }
+    }
+
     // 프로필 추가 성공시 Toast 메세지
     // 뒤로가기 눌렀을때 Toast 메세지
     override fun onStop() {
         super.onStop()
-
         if(flag) {
             Toast.makeText(this@AddProfileActivity, "프로필을 추가했습니다", Toast.LENGTH_SHORT).show()
-        }else{
-            Toast.makeText(this@AddProfileActivity, "추가하신 프로필이 없습니다", Toast.LENGTH_SHORT).show()
         }
+
     }
 
 
@@ -170,7 +193,13 @@ class AddProfileActivity : AppCompatActivity() {
     // 뒤로가기 버튼 클릭시 호출 메소드
     // 뒤로가기 버튼 클릭시 MainActivity로 화면이동
     private fun movebackPage(){
-        intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
+            .putExtra("addprofile", "fail")
+        startActivity(intent)
+    }
+
+    private fun movechangePage(){
+        val intent = Intent(this, AddChangeProfileActivity::class.java)
         startActivity(intent)
     }
 
