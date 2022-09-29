@@ -90,27 +90,47 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
+            <ImageButton
+                android:id="@+id/home_fragment_movie_seoul"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/profile1"/>
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/movie1"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"/>
 
-            <ImageView
+            <ImageButton
+                android:id="@+id/home_fragment_movie_kobra"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/profile1"/>
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/movie2"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"/>
 
 
-            <ImageView
+            <ImageButton
+                android:id="@+id/home_fragment_movie_ring"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/profile1"/>
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/movie3"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"/>
 
 
-            <ImageView
+            <ImageButton
+                android:id="@+id/home_fragment_movie_gwimyual"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/profile1"/>
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/movie4"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"/>
 
 
         </LinearLayout>

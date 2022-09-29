@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.week2.Task2">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Task2"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
@@ -25,9 +28,13 @@
         <activity android:name=".AddProfileActivity">
 
         </activity>
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".HomeActivity">
+
+        </activity>
         <activity android:name=".ProfileChangeActivity"
-            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>

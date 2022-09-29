@@ -36,7 +36,7 @@ class ProfileChangeActivity : AppCompatActivity(){
 
         // 뒤로가기 버튼 눌렀을때 페이지 이동
         gomainBtn.setOnClickListener {
-            var intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.none, R.anim.none)
         }
@@ -46,7 +46,7 @@ class ProfileChangeActivity : AppCompatActivity(){
             override fun onClick(v: View, position: Int){
                 Log.d("aa", "Clicked")
                 deleteprofile(position)
-                var intent = Intent(this@ProfileChangeActivity, MainActivity::class.java)
+                val intent = Intent(this@ProfileChangeActivity, MainActivity::class.java)
                 intent.putExtra("result", "success")
                 startActivity(intent)
             }
@@ -65,19 +65,18 @@ class ProfileChangeActivity : AppCompatActivity(){
     // local 에서 데이터 불러와서 파싱하는 메소드
     private fun loadprofilechange(){
         val getSharedname = sharedpreferences.getString("profilenamearr", "ERROR")
-        var profilenamearr : ArrayList<String> = ArrayList()
+        val profilenamearr : ArrayList<String> = ArrayList()
 
         // 만약 저장된 profile 데이터 없다면 그냥 데이터 변환 하지 않고 recyler 함수 실행
 
-        if(getSharedname == "ERROR"){
-            recycler(0)
-        }else{
-            var arrJson = JSONArray(getSharedname)
-            for(i in 0 until arrJson.length()){
+        if(getSharedname != "ERROR") {
+            val arrJson = JSONArray(getSharedname)
+            for (i in 0 until arrJson.length()) {
                 profilenamearr.add(arrJson.optString(i))
             }
             recycler(profilenamearr.size)
         }
+
     }
     
     
@@ -110,30 +109,52 @@ class ProfileChangeActivity : AppCompatActivity(){
     // -> 다시 String으로 데이터 파싱후 local 에 덮어쓰기
     private fun deleteprofile(position: Int){
         val getSharedname = sharedpreferences.getString("profilenamearr", "ERROR")
-        var profilenamearr : ArrayList<String> = ArrayList()
+        val getSharedimg = sharedpreferences.getString("profileimgarr" , "ERROR")
+        val profilenamearr : ArrayList<String> = ArrayList()
+        val profileimgarr : ArrayList<String> = ArrayList()
 
         // 만약 저장된 profile 데이터 없다면 그냥 데이터 변환 하지 않고 recyler 함수 실행
-
-        if(getSharedname == "ERROR"){
-            return
-        }else{
-            var arrJson = JSONArray(getSharedname)
+        
+        //프로필 이름
+        if(getSharedname != "ERROR"){
+            val arrJson = JSONArray(getSharedname)
             for(i in 0 until arrJson.length()){
                 profilenamearr.add(arrJson.optString(i))
             }
             profilenamearr.removeAt(position)
         }
 
+        // 프로필 사진
+        if(getSharedimg != "ERROR"){
+            val arrJsonimg = JSONArray(getSharedimg)
+            for(i in 0 until arrJsonimg.length()){
+                profileimgarr.add(arrJsonimg.optString(i))
+            }
+            profileimgarr.removeAt(position)
+        }
+
+        
         // local 에 저장하기 위해 다시 String으로 형변환
-        var jsonArr = JSONArray()
+        // 프로필 이름
+        val jsonArr = JSONArray()
         for(i in profilenamearr){
             jsonArr.put(i)
         }
-        var result = jsonArr.toString()
+        val resultname = jsonArr.toString()
+        
+        
+        // 프로필 사진
+        val jsonArrimg = JSONArray()
+        for(i in profileimgarr){
+            jsonArrimg.put(i)
+        }
+        val resultimg = jsonArrimg.toString()
 
         // local 에 갱신된 profile 배열 String 형태로 저장
         val editor: SharedPreferences.Editor = sharedpreferences.edit()
-        editor.putString("profilenamearr", result)
+        editor.putString("profilenamearr", resultname)
+        editor.apply()
+        editor.putString("profileimgarr", resultimg)
         editor.apply()
     }
 

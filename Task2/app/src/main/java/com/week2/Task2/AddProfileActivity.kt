@@ -2,13 +2,16 @@ package com.week2.Task2
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Base64
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -16,12 +19,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.week2.Task2.databinding.ActivityAddprofileBinding
 import org.json.JSONArray
+import java.io.ByteArrayOutputStream
 
 class AddProfileActivity : AppCompatActivity() {
     private lateinit var binding : ActivityAddprofileBinding
     private lateinit var sharedPreferences:SharedPreferences
+    private lateinit var profilebitmap : Bitmap
     var profilename : String =""
     var profilenamearr : ArrayList<String> = ArrayList()
+    var profileimgarr : ArrayList<String> = ArrayList()
     var flag : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,8 +39,11 @@ class AddProfileActivity : AppCompatActivity() {
         val gobackBtn = findViewById<ImageButton>(R.id.addprofile_goback_btn)
         val storeBtn = findViewById<Button>(R.id.addprofile_store_btn)
 
+
         storeBtn.isEnabled = false
         sharedPreferences = getSharedPreferences("test", MODE_PRIVATE)
+
+
 
         // 뒤로가기버튼 클릭 리스너
         gobackBtn.setOnClickListener{
@@ -54,17 +63,25 @@ class AddProfileActivity : AppCompatActivity() {
         Log.d("aa","onStart")
 
         val editText = findViewById<EditText>(R.id.addprofile_input)
-        val imgBtn = findViewById<ImageButton>(R.id.addprofile_image_btn)
         val storeBtn = findViewById<Button>(R.id.addprofile_store_btn)
+
 
         // local 에 저장된 String 형태의 profile 이름 배열을 불러오기.
         // JSONArray -> ArrayList 로 형태변환
-        val getShared = sharedPreferences.getString("profilenamearr", "ERROR")
+        val getSharedName = sharedPreferences.getString("profilenamearr", "ERROR")
+        val getSharedImage = sharedPreferences.getString("profileimgarr","ERROR")
 
-        if(getShared != "ERROR"){
-            var arrJson = JSONArray(getShared)
+        if(getSharedName != "ERROR"){
+            val arrJson = JSONArray(getSharedName)
             for(i in 0 until arrJson.length()){
                 profilenamearr.add(arrJson.optString(i))
+            }
+        }
+
+        if(getSharedImage != "ERROR"){
+            val arrJsonimg = JSONArray(getSharedImage)
+            for(i in 0 until arrJsonimg.length()){
+                profileimgarr.add(arrJsonimg.optString(i))
             }
         }
 
@@ -107,31 +124,45 @@ class AddProfileActivity : AppCompatActivity() {
             Toast.makeText(this@AddProfileActivity, "추가하신 프로필이 없습니다", Toast.LENGTH_SHORT).show()
         }
     }
-    
+
 
 
 
     // 저장버튼 클릭시 호출 메소드
     // profilenamearr 에 새로운 profile 이름 추가한뒤, String으로 변환하여 Local 에 저장.
     private fun makeProfile(){
+        
+        // 선택한 프로필이미지를 bitmap으로 변환
+        val profileimg = findViewById<ImageButton>(R.id.addprofile_image_btn)
+        profilebitmap = getViewBitmap(profileimg)
 
         // profile 이름 배열에 새로 입력한 이름 추가
+        // profile 이미지 배열에, 선택한 프로필이미지 Bitmap -> String으로 변환해서 추가
         profilenamearr.add(profilename)
+        profileimgarr.add(BitmapToString(profilebitmap))
         flag = true
 
         // local 에 저장하기 위해 다시 String으로 형변환
-        var jsonArr = JSONArray()
+        val jsonArr = JSONArray()
         for(i in profilenamearr){
             jsonArr.put(i)
         }
-        var result = jsonArr.toString()
+        val result = jsonArr.toString()
+
+        val jsonArrImg = JSONArray()
+        for(i in profileimgarr){
+            jsonArrImg.put(i)
+        }
+        val resultimg = jsonArrImg.toString()
 
         // local 에 갱신된 profile 배열 String 형태로 저장
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
         editor.putString("profilenamearr", result)
         editor.apply()
+        editor.putString("profileimgarr", resultimg)
+        editor.apply()
 
-        var intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 
@@ -143,6 +174,28 @@ class AddProfileActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+
+    // 뷰를 Bitmap 으로 변환해주는 메소드
+
+    private fun getViewBitmap(view: View): Bitmap {
+        val bitmap = Bitmap.createBitmap(
+            view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+        return bitmap
+    }
+
+
+    // SharedPreferences 에 저장하기 위해, Bitmap을 String으로 변환해주는 메소드
+
+    fun BitmapToString(bitmap: Bitmap): String {
+        val baos = ByteArrayOutputStream() //바이트 배열을 차례대로 읽어 들이기위한 ByteArrayOutputStream클래스 선언
+        bitmap.compress(Bitmap.CompressFormat.PNG, 70, baos) //bitmap을 압축 (숫자 70은 70%로 압축한다는 뜻)
+        val bytes = baos.toByteArray() //해당 bitmap을 byte배열로 바꿔준다.
+        return Base64.encodeToString(bytes, Base64.DEFAULT) //Base 64 방식으로byte 배열을 String으로 변환
+        //String을 retrurn
+    }
 
 
 }

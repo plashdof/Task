@@ -3,8 +3,13 @@ package com.week2.Task2
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
@@ -51,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     // 연필버튼 클릭시, ProfileChangeActivity로 화면이동
     private fun moveToProfileChange(){
         flag = true
-        var intent = Intent(this, ProfileChangeActivity::class.java)
+        val intent = Intent(this, ProfileChangeActivity::class.java)
         startActivity(intent)
     }
 
@@ -93,26 +98,34 @@ class MainActivity : AppCompatActivity() {
     private fun loadprofile(){
 
         val getSharedname = sharedPreferences.getString("profilenamearr", "ERROR")
-        val getSharedimage = sharedPreferences.getInt("profileimagearr", -1)
-        var profilenamearr : ArrayList<String> = ArrayList()
+        val getSharedimage = sharedPreferences.getString("profileimgarr", "ERROR")
+        val profilenamearr : ArrayList<String> = ArrayList()
+        val profileimgarr : ArrayList<String> = ArrayList()
         
         // 만약 저장된 profile 데이터 없다면 그냥 데이터 변환 하지 않고 recyler 함수 실행
 
-        if(getSharedname == "ERROR"){
-            recycler(profilenamearr)
-        }else{
-            var arrJson = JSONArray(getSharedname)
+        if(getSharedname != "ERROR"){
+            val arrJson = JSONArray(getSharedname)
             for(i in 0 until arrJson.length()){
                 profilenamearr.add(arrJson.optString(i))
             }
-            recycler(profilenamearr)
         }
+
+        if(getSharedimage != "ERROR"){
+            val arrJsonimg = JSONArray(getSharedimage)
+            for(i in 0 until arrJsonimg.length()) {
+                profileimgarr.add(arrJsonimg.optString(i))
+            }
+        }
+
+        recycler(profilenamearr, profileimgarr)
+
 
     }
     
     // recycler view 화면 출력
 
-    private fun recycler(profilenamearr: ArrayList<String>){
+    private fun recycler(profilenamearr: ArrayList<String>, profileimgarr: ArrayList<String>){
         profileAdapter = ProfileAdapter(this)
         main_profiles.adapter = profileAdapter
 
@@ -125,11 +138,31 @@ class MainActivity : AppCompatActivity() {
         
         data.apply{
 
-            for(i in profilenamearr){
-                add(ProfileData(img = R.drawable.profile4, name = i))
+            for(i in 0 until profileimgarr.size){
+                val d = BitmapDrawable(resources,StringToBitmap(profileimgarr[i]))
+                add(ProfileData(img = d, name = profilenamearr[i]))
             }
             
             profileAdapter.datas = data
+        }
+    }
+    
+    // SharedPreferences에 저장되어있는 String 형태의 Bitmap을 Bitmap으로 변환
+    fun StringToBitmap(encodedString: String?): Bitmap? {
+        return try {
+            val encodeByte: ByteArray = Base64.decode(
+                encodedString,
+                Base64.DEFAULT
+            ) // String 화 된 이미지를  base64방식으로 인코딩하여 byte배열을 만듬
+            BitmapFactory.decodeByteArray(
+                encodeByte,
+                0,
+                encodeByte.size
+            ) //byte배열을 bitmapfactory 메소드를 이용하여 비트맵으로 바꿔준다.
+            //만들어진 bitmap을 return
+        } catch (e: Exception) {
+            e.message
+            null
         }
     }
 

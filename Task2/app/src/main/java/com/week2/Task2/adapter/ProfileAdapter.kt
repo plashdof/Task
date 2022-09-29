@@ -36,7 +36,6 @@ class ProfileAdapter(private val context: Context) : RecyclerView.Adapter<Profil
             image.setOnClickListener{
 
                 val intent = Intent(context, HomeActivity::class.java)
-                intent.putExtra("data", item.img)
                 intent.run{context.startActivity(this)}
             }
         }
