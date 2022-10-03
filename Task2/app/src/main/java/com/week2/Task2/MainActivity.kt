@@ -1,6 +1,7 @@
 package com.week2.Task2
 
 
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Resources
@@ -15,6 +16,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.week2.Task2.adapter.ProfileAdapter
+import com.week2.Task2.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 
@@ -22,20 +24,22 @@ import org.json.JSONArray
 class MainActivity : AppCompatActivity() {
     private lateinit var profileAdapter: ProfileAdapter
     private lateinit var sharedPreferences : SharedPreferences
+    private lateinit var binding : ActivityMainBinding
     private val data = mutableListOf<ProfileData>()
     var flag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
 
         Log.d("main","onCreate")
 
-        overridePendingTransition(R.anim.none, R.anim.none)
         sharedPreferences = getSharedPreferences("test", MODE_PRIVATE)
 
-        val addProfileBtn = findViewById<ImageButton>(R.id.main_addprofile_btn)
-        val profileChangeBtn = findViewById<ImageButton>(R.id.main_fixprofile_btn)
+        val addProfileBtn = binding.mainAddprofileBtn
+        val profileChangeBtn = binding.mainFixprofileBtn
 
         loadprofile()
 

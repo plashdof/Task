@@ -18,12 +18,14 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.week2.Task2.databinding.ActivityAddprofileBinding
 import org.json.JSONArray
 import java.io.ByteArrayOutputStream
 
 class AddProfileActivity : AppCompatActivity() {
     private lateinit var sharedPreferences:SharedPreferences
     private lateinit var profilebitmap : Bitmap
+    private lateinit var binding : ActivityAddprofileBinding
     var profilename : String =""
     var profilenamearr : ArrayList<String> = ArrayList()
     var profileimgarr : ArrayList<String> = ArrayList()
@@ -31,11 +33,14 @@ class AddProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_addprofile)
+        binding = ActivityAddprofileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val gobackBtn = findViewById<ImageButton>(R.id.addprofile_goback_btn)
-        val storeBtn = findViewById<Button>(R.id.addprofile_store_btn)
-        val changeprofileBtn = findViewById<ImageButton>(R.id.addprofile_image_btn)
+
+
+        val gobackBtn = binding.addprofileGobackBtn
+        val storeBtn = binding.addprofileStoreBtn
+        val changeprofileBtn = binding.addprofileImageBtn
 
 
         storeBtn.isEnabled = false
@@ -64,8 +69,8 @@ class AddProfileActivity : AppCompatActivity() {
         super.onStart()
         Log.d("aa","onStart")
 
-        val editText = findViewById<EditText>(R.id.addprofile_input)
-        val storeBtn = findViewById<Button>(R.id.addprofile_store_btn)
+        val editText = binding.addprofileInput
+        val storeBtn = binding.addprofileStoreBtn
 
 
         // local 에 저장된 String 형태의 profile 이름 배열을 불러오기.
@@ -118,7 +123,7 @@ class AddProfileActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        val profileimg = findViewById<ImageButton>(R.id.addprofile_image_btn)
+        val profileimg = binding.addprofileImageBtn
         
         // 투명창인 프로필 사진 변경 창 끝났을경우, 해당 선택한 프로필로 변경해준다!
         // Glide 라이브러리 사용
@@ -156,7 +161,7 @@ class AddProfileActivity : AppCompatActivity() {
     private fun makeProfile(){
         
         // 선택한 프로필이미지를 bitmap으로 변환
-        val profileimg = findViewById<ImageButton>(R.id.addprofile_image_btn)
+        val profileimg = binding.addprofileImageBtn
         profilebitmap = getViewBitmap(profileimg)
 
         // profile 이름 배열에 새로 입력한 이름 추가

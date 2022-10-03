@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.week2.Task2.adapter.ProfileAdapter
 import com.week2.Task2.adapter.ProfileChangeAdapter
+import com.week2.Task2.databinding.ActivityProfilechangeBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_profilechange.*
 import kotlinx.android.synthetic.main.recycler_delete_item.*
@@ -20,11 +21,13 @@ class ProfileChangeActivity : AppCompatActivity(){
 
     private lateinit var profileChangeAdapter : ProfileChangeAdapter
     private lateinit var sharedpreferences : SharedPreferences
+    private lateinit var binding : ActivityProfilechangeBinding
     private val data = mutableListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profilechange)
+        binding = ActivityProfilechangeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         sharedpreferences = getSharedPreferences("test", MODE_PRIVATE)
 
@@ -32,7 +35,7 @@ class ProfileChangeActivity : AppCompatActivity(){
 
         loadprofilechange()
 
-        val gomainBtn = findViewById<ImageButton>(R.id.profilechange_goback_btn)
+        val gomainBtn = binding.profilechangeGobackBtn
 
         // 뒤로가기 버튼 눌렀을때 페이지 이동
         gomainBtn.setOnClickListener {

@@ -7,20 +7,23 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import com.week2.Task2.databinding.ActivityAddchangeprofileBinding
 
 class AddChangeProfileActivity :AppCompatActivity() {
 
+    private lateinit var binding : ActivityAddchangeprofileBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_addchangeprofile)
+        binding = ActivityAddchangeprofileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         overridePendingTransition(R.anim.none, R.anim.none)
 
-        val profile1 = findViewById<ImageButton>(R.id.change_profile1)
-        val profile2 = findViewById<ImageButton>(R.id.change_profile2)
-        val profile3 = findViewById<ImageButton>(R.id.change_profile3)
-        val profile4 = findViewById<ImageButton>(R.id.change_profile4)
-        val profile5 = findViewById<ImageButton>(R.id.change_profile5)
+        val profile1 = binding.changeProfile1
+        val profile2 = binding.changeProfile2
+        val profile3 = binding.changeProfile3
+        val profile4 = binding.changeProfile4
+        val profile5 = binding.changeProfile5
 
         profile1.setOnClickListener {
             val bit = getViewBitmap(profile1)
