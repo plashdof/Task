@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var profileAdapter: ProfileAdapter
     private lateinit var sharedPreferences : SharedPreferences
     private lateinit var binding : ActivityMainBinding
-    private val data = mutableListOf<ProfileData>()
+    private val data = ArrayList<ProfileData>()
     var flag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -134,17 +134,7 @@ class MainActivity : AppCompatActivity() {
     // recycler view 화면 출력
 
     private fun recycler(profilenamearr: ArrayList<String>, profileimgarr: ArrayList<String>){
-        
-        // 어뎁터 연결
-        profileAdapter = ProfileAdapter(this)
-        main_profiles.adapter = profileAdapter
-        
-        // 레이아웃 매니저 호출 & 레이아웃 설정
-        val gridLayoutManager = GridLayoutManager(this, 2)
-        main_profiles.layoutManager = gridLayoutManager
 
-        
-        
         // ArrayList 형태로 되어있는 profile data 를 View에 추가시키기
         
         data.apply{
@@ -157,7 +147,11 @@ class MainActivity : AppCompatActivity() {
                 add(ProfileData(img = d, name = profilenamearr[i]))
             }
             
-            profileAdapter.datas = data
+            // 어뎁터 연결 &레이아웃 매니저 호출 & 레이아웃 설정
+            val adapter = ProfileAdapter(data)
+            binding.mainProfiles.layoutManager = GridLayoutManager(this@MainActivity, 2)
+            binding.mainProfiles.adapter = adapter
+
         }
     }
     

@@ -19,10 +19,10 @@ import org.json.JSONArray
 
 class ProfileChangeActivity : AppCompatActivity(){
 
-    private lateinit var profileChangeAdapter : ProfileChangeAdapter
     private lateinit var sharedpreferences : SharedPreferences
     private lateinit var binding : ActivityProfilechangeBinding
-    private val data = mutableListOf<Int>()
+    private lateinit var profilechangeadapter: ProfileChangeAdapter
+    private val data = ArrayList<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +45,7 @@ class ProfileChangeActivity : AppCompatActivity(){
         }
 
         // 휴지통 삭제버튼 눌렀을때, local 저장된 해당 포지션의 프로필데이터 삭제후, 페이지 이동
-        profileChangeAdapter.setItemClickListener(object: ProfileChangeAdapter.OnItemClickListener{
+        profilechangeadapter.setItemClickListener(object: ProfileChangeAdapter.OnItemClickListener{
             override fun onClick(v: View, position: Int){
                 Log.d("aa", "Clicked")
                 deleteprofile(position)
@@ -85,11 +85,7 @@ class ProfileChangeActivity : AppCompatActivity(){
     
     // local 데이터 파싱 끝나면, recyclerview 화면에 띄우기
     private fun recycler(size :Int){
-        profileChangeAdapter = ProfileChangeAdapter(this)
-        profilechange_recycler.adapter = profileChangeAdapter
 
-        val gridLayoutManager = GridLayoutManager(this, 2)
-        profilechange_recycler.layoutManager = gridLayoutManager
 
         Log.d("aa", "$size")
 
@@ -99,8 +95,11 @@ class ProfileChangeActivity : AppCompatActivity(){
                 add(R.drawable.main_delete)
             }
 
-            profileChangeAdapter.datas = data
+            profilechangeadapter = ProfileChangeAdapter(data)
+            binding.profilechangeRecycler.layoutManager = GridLayoutManager(this@ProfileChangeActivity, 2)
+            binding.profilechangeRecycler.adapter = profilechangeadapter
         }
+
 
     }
 
