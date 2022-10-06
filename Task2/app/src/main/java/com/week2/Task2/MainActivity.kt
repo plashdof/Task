@@ -15,6 +15,8 @@ import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.week2.Task2.adapter.ProfileAdapter
 import com.week2.Task2.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
@@ -40,8 +42,13 @@ class MainActivity : AppCompatActivity() {
 
         val addProfileBtn = binding.mainAddprofileBtn
         val profileChangeBtn = binding.mainFixprofileBtn
+        val testBtn = binding.mainTestBtn
 
         loadprofile()
+
+        testBtn.setOnClickListener{
+            moveToTest()
+        }
 
         addProfileBtn.setOnClickListener{
             moveToAddProfilePage()
@@ -55,6 +62,11 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this,"프로필이 추가되지 않았습니다",Toast.LENGTH_SHORT).show()
         }
 
+    }
+
+    private fun moveToTest(){
+        val intent = Intent(this, TestActivity::class.java)
+        startActivity(intent)
     }
 
     // 프로필 추가버튼 클릭시, AddProfileActivity로 화면이동
@@ -146,13 +158,13 @@ class MainActivity : AppCompatActivity() {
 
                 add(ProfileData(img = d, name = profilenamearr[i]))
             }
-            
-            // 어뎁터 연결 &레이아웃 매니저 호출 & 레이아웃 설정
-            val adapter = ProfileAdapter(data)
-            binding.mainProfiles.layoutManager = GridLayoutManager(this@MainActivity, 2)
-            binding.mainProfiles.adapter = adapter
 
         }
+
+        // 어뎁터 연결 &레이아웃 매니저 호출 & 레이아웃 설정
+        val adapter = ProfileAdapter(data)
+        binding.mainProfiles.layoutManager = GridLayoutManager(this@MainActivity, 2)
+        binding.mainProfiles.adapter = adapter
     }
     
     // SharedPreferences에 저장되어있는 String 형태의 Bitmap을 Bitmap으로 변환

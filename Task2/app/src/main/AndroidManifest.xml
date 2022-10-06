@@ -38,6 +38,9 @@
         <activity android:name=".AddChangeProfileActivity"
             android:theme="@style/Theme.AppCompat.Transparent.NoActionBar">
         </activity>
+        <activity android:name=".TestActivity">
+
+        </activity>
     </application>
 
 </manifest>
