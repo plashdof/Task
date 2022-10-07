@@ -87,9 +87,9 @@ class MainActivity : AppCompatActivity() {
         Log.d("main","onStart")
     }
 
-    
+
     // 프로필 삭제했을때, Toast 메세지 출력
-    
+
     override fun onResume() {
         super.onResume()
         Log.d("main","onResume")
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this@MainActivity, "프로필을 삭제했습니다", Toast.LENGTH_SHORT).show()
         }
     }
-    
+
     // 프로필 삭제화면 이동시 Toast 메세지 출력
 
     override fun onPause() {
@@ -114,14 +114,14 @@ class MainActivity : AppCompatActivity() {
 
     // local 에 저장된 String 형태의 profile 이름 배열을 불러오기.
     // JSONArray -> ArrayList 로 형태변환
-    
+
     private fun loadprofile(){
 
         val getSharedname = sharedPreferences.getString("profilenamearr", "ERROR")
         val getSharedimage = sharedPreferences.getString("profileimgarr", "ERROR")
         val profilenamearr : ArrayList<String> = ArrayList()
         val profileimgarr : ArrayList<String> = ArrayList()
-        
+
         // 만약 저장된 profile 데이터 없다면 그냥 데이터 변환 하지 않고 recyler 함수 실행
 
         if(getSharedname != "ERROR"){
@@ -142,17 +142,17 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-    
+
     // recycler view 화면 출력
 
     private fun recycler(profilenamearr: ArrayList<String>, profileimgarr: ArrayList<String>){
 
         // ArrayList 형태로 되어있는 profile data 를 View에 추가시키기
-        
+
         data.apply{
 
             for(i in 0 until profilenamearr.size){
-                
+
                 // bitmap 을 drawable로 다시 변환시키는 로직
                 val d = BitmapDrawable(resources,StringToBitmap(profileimgarr[i]))
 
@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity() {
         binding.mainProfiles.layoutManager = GridLayoutManager(this@MainActivity, 2)
         binding.mainProfiles.adapter = adapter
     }
-    
+
     // SharedPreferences에 저장되어있는 String 형태의 Bitmap을 Bitmap으로 변환
     fun StringToBitmap(encodedString: String?): Bitmap? {
         return try {

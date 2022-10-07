@@ -22,7 +22,7 @@ class TestActivity :AppCompatActivity(){
         val data : ArrayList<TestData> = arrayListOf()
         data.apply{
             for(i in 0 until 30){
-                add(TestData(img=R.drawable.profile1, text = i.toString()))
+                add(TestData(img=R.drawable.profile1, text = i.toString(), checked = false))
             }
         }
 

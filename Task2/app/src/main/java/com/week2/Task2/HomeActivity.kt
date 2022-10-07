@@ -1,6 +1,9 @@
 package com.week2.Task2
 
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
@@ -15,8 +18,10 @@ class HomeActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+
         val bnView = findViewById<BottomNavigationView>(R.id.home_navigation)
         bnView.itemIconTintList = null
+
 
         // BottomNavigationView 로 Fragment 전환하는 로직
 
@@ -38,5 +43,6 @@ class HomeActivity : AppCompatActivity(){
     private fun changePage(fragment:Fragment){
         supportFragmentManager.beginTransaction().replace(frame_container.id, fragment).commit()
     }
+
 
 }

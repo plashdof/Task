@@ -124,7 +124,7 @@ class AddProfileActivity : AppCompatActivity() {
         super.onResume()
 
         val profileimg = binding.addprofileImageBtn
-        
+
         // 투명창인 프로필 사진 변경 창 끝났을경우, 해당 선택한 프로필로 변경해준다!
         // Glide 라이브러리 사용
 
@@ -159,7 +159,7 @@ class AddProfileActivity : AppCompatActivity() {
     // 저장버튼 클릭시 호출 메소드
     // profilenamearr 에 새로운 profile 이름 추가한뒤, String으로 변환하여 Local 에 저장.
     private fun makeProfile(){
-        
+
         // 선택한 프로필이미지를 bitmap으로 변환
         val profileimg = binding.addprofileImageBtn
         profilebitmap = getViewBitmap(profileimg)

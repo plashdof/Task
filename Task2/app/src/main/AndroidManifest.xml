@@ -41,6 +41,9 @@
         <activity android:name=".TestActivity">
 
         </activity>
+        <activity android:name=".SearchActivity">
+
+        </activity>
     </application>
 
 </manifest>

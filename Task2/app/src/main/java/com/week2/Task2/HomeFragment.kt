@@ -1,16 +1,24 @@
 package com.week2.Task2
 
 
+
 import android.content.Intent
-import android.net.Uri
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.week2.Task2.adapter.MovieAdapter
+import com.week2.Task2.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
-class HomeFragment : Fragment(){
+class HomeFragment() : Fragment(){
+    private lateinit var movieAdapter: MovieAdapter
+    private lateinit var binding: FragmentHomeBinding
 
 
     override fun onCreateView(
@@ -18,41 +26,99 @@ class HomeFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_home, container, false)
 
-        view.home_fragment_movie_seoul.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=Vl_DmmOYV6Y"))
+        binding = FragmentHomeBinding.inflate(layoutInflater)
+
+
+        val top10data : ArrayList<Int> = arrayListOf()
+        val koreandata : ArrayList<Int> = arrayListOf()
+        val thrillerdata : ArrayList<Int> = arrayListOf()
+        val romancedata : ArrayList<Int> = arrayListOf()
+        val animationdata : ArrayList<Int> = arrayListOf()
+
+
+        top10data.apply{
+            for(i in 0 until 30){
+                add(R.drawable.movie1)
+                add(R.drawable.movie2)
+                add(R.drawable.movie3)
+                add(R.drawable.movie4)
+                add(R.drawable.movie5)
+            }
+        }
+
+        koreandata.apply{
+            for(i in 0 until 30){
+                add(R.drawable.movie3)
+                add(R.drawable.movie2)
+                add(R.drawable.movie4)
+                add(R.drawable.movie5)
+                add(R.drawable.movie1)
+            }
+        }
+
+        thrillerdata.apply{
+            for(i in 0 until 30){
+                add(R.drawable.movie5)
+                add(R.drawable.movie4)
+                add(R.drawable.movie3)
+                add(R.drawable.movie2)
+                add(R.drawable.movie1)
+            }
+        }
+
+        romancedata.apply{
+            for(i in 0 until 30){
+                add(R.drawable.movie1)
+                add(R.drawable.movie2)
+                add(R.drawable.movie3)
+                add(R.drawable.movie4)
+                add(R.drawable.movie5)
+            }
+        }
+
+        animationdata.apply{
+            for(i in 0 until 30){
+                add(R.drawable.movie4)
+                add(R.drawable.movie3)
+                add(R.drawable.movie2)
+                add(R.drawable.movie1)
+                add(R.drawable.movie5)
+            }
+        }
+
+
+        binding.homeSearchBtn.setOnClickListener {
+            Log.d("dddd","clicked")
+            val intent = Intent(context, SearchActivity::class.java)
             startActivity(intent)
         }
 
-        view.home_fragment_movie_ring.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=HSDQ7SfwFUw"))
-            startActivity(intent)
-        }
 
-        view.home_fragment_movie_kobra.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=FW0_by4xtMY"))
-            startActivity(intent)
-        }
 
-        view.home_fragment_movie_gwimyual.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=MQ9KbWtur5U"))
-            startActivity(intent)
-        }
+        val top10Adapter = MovieAdapter(top10data)
+        binding.homeRecyclerTop10.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.homeRecyclerTop10.adapter = top10Adapter
 
-        // Return the fragment view/layout
-        return view
+        val koreanAdapter = MovieAdapter(koreandata)
+        binding.homeRecyclerKorean.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.homeRecyclerKorean.adapter = koreanAdapter
+
+        val thrillerAdapter = MovieAdapter(thrillerdata)
+        binding.homeRecyclerThriller.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.homeRecyclerThriller.adapter = thrillerAdapter
+
+        val romanceAdapter = MovieAdapter(romancedata)
+        binding.homeRecyclerRomance.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.homeRecyclerRomance.adapter = romanceAdapter
+
+        val animationAdapter = MovieAdapter(animationdata)
+        binding.homeRecyclerAnimation.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.homeRecyclerAnimation.adapter = animationAdapter
+
+
+
+        return binding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-    }
-
-
-
-
-
 
 }

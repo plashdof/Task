@@ -5,5 +5,6 @@ import androidx.annotation.DrawableRes
 data class TestData(
     val text: String,
     @DrawableRes
-    val img: Int
+    val img: Int,
+    val checked: Boolean
 )

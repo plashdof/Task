@@ -1,7 +1,10 @@
 package com.week2.Task2.adapter
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.week2.Task2.HomeActivity
@@ -40,5 +43,12 @@ class ProfileAdapter(private val datas: ArrayList<ProfileData>) : RecyclerView.A
 
     override fun getItemCount(): Int = datas.size
 
-
+    private fun getViewBitmap(view: View): Bitmap {
+        val bitmap = Bitmap.createBitmap(
+            view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+        return bitmap
+    }
 }
